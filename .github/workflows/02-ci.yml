@@ -1,6 +1,9 @@
 name: CI
 on: [push]
 
+env:
+  APP_NAME: fastapi-starter
+
 jobs:
   lint:
     name: Lint – Ruff
@@ -8,6 +11,14 @@ jobs:
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
+      - name: Afficher les contextes
+        run: |
+          echo "Application : ${{ env.APP_NAME }}"
+          echo "Acteur      : ${{ github.actor }}"
+          echo "Événement   : ${{ github.event_name }}"
+          echo "Branche     : ${{ github.ref_name }}"
+          echo "SHA         : ${{ github.sha }}"
+          echo "OS runner   : ${{ runner.os }}"
       - name: Installer Python 3.13
         uses: actions/setup-python@v5
         with:
