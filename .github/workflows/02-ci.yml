@@ -1,5 +1,5 @@
 name: CI
-on: [push]
+on: [push, pull_request]
 
 jobs:
   lint:
@@ -18,6 +18,8 @@ jobs:
           echo "Branche     : ${{ github.ref_name }}"
           echo "SHA         : ${{ github.sha }}"
           echo "OS runner   : ${{ runner.os }}"
+          echo "head_ref    : ${{ github.head_ref }}"
+          echo "base_ref    : ${{ github.base_ref }}"
       - name: Installer Python 3.13
         uses: actions/setup-python@v5
         with:
