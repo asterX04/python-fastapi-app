@@ -47,9 +47,7 @@ jobs:
 
       - name: Compute full version
         id: version
-        run: |
-          echo "full_version=1.0.0-2026-11-20" > $GITHUB_OUTPUT   # fichier : full_version=...
-          echo "build_id=42" > $GITHUB_OUTPUT                      # efface tout, fichier : build_id=42
+        run: echo "full_version=${{ inputs.version }}-$(date +%F)" >> $GITHUB_OUTPUT
 
   verify-env:
     runs-on: ubuntu-latest
