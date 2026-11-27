@@ -48,3 +48,11 @@ On choisit `true` lorsque l'on veut un retour rapide (feedback loop) pour écono
 
 **Dans quel cas choisir `false` ?**
 On choisit `false` lorsqu'on a besoin d'un rapport exhaustif, par exemple pour des tests de compatibilité. On veut savoir si le code échoue *uniquement* sur Windows ou *uniquement* sur Python 3.11, sans avoir à relancer le pipeline plusieurs fois.
+
+## Q5. Donnez deux raisons d'utiliser max-parallel en entreprise.
+
+1. **Éviter la surcharge des infrastructures ou des runners (limites de concurrence)** : 
+   Dans une entreprise, on utilise souvent des *self-hosted runners* (des serveurs internes) qui ont une capacité limitée. Si une matrice génère 50 jobs d'un coup, cela peut saturer les serveurs et bloquer les autres équipes. `max-parallel` permet de lisser la charge.
+
+2. **Contourner les limites de quotas d'API tierces (Rate Limiting)** : 
+   Si vos tests doivent interagir avec des services externes (comme télécharger des dépendances depuis un registre privé, interroger une base de données de test, ou utiliser une API cloud), lancer trop de jobs simultanément peut déclencher des blocages de sécurité (rate limiting) ou des frais supplémentaires. `max-parallel` permet de contrôler le flux de requêtes.
