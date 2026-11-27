@@ -37,3 +37,14 @@ Cela **ne fonctionnerait pas** : la combinaison `3.14` serait quand même géné
 De plus, l'ordre d'exécution de GitHub Actions est strict : la matrice de base est générée, puis `exclude` est appliqué, et enfin `include` est ajouté. Au moment où `exclude` s'exécute, la combinaison `3.14` n'existe pas encore, il est donc impossible de l'exclure de cette façon.
 
 
+## Q4. Quelle est la différence observée ? Dans quel cas choisiriez-vous true ? false ?
+
+**Différence observée :**
+- Avec **`fail-fast: true`** (valeur par défaut) : Dès qu'un job de la matrice échoue, GitHub Actions annule immédiatement tous les autres jobs en cours ou en attente. Cela se traduit visuellement par des jobs qui deviennent gris (annulés).
+- Avec **`fail-fast: false`** : GitHub Actions continue d'exécuter tous les jobs de la matrice jusqu'au bout, même si certains échouent. On obtient ainsi un rapport complet (tous les jobs vont au bout, ceux qui échouent sont rouges, ceux qui réussissent sont verts).
+
+**Dans quel cas choisir `true` ?**
+On choisit `true` lorsque l'on veut un retour rapide (feedback loop) pour économiser du temps et des ressources (minutes de CI/CD). Si un échec sur un OS signifie que le code est fondamentalement cassé, il est inutile de tester les autres combinaisons.
+
+**Dans quel cas choisir `false` ?**
+On choisit `false` lorsqu'on a besoin d'un rapport exhaustif, par exemple pour des tests de compatibilité. On veut savoir si le code échoue *uniquement* sur Windows ou *uniquement* sur Python 3.11, sans avoir à relancer le pipeline plusieurs fois.
